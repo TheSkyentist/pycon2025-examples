@@ -3,6 +3,12 @@ rule all:
     input:
         "results/final_output.txt"
 
+rule create_input:
+    output:
+        "data/input.txt"
+    shell:
+       "echo 'Hello World \nSnakemake is cool!' > {output}"
+
 rule step1:
     input:
         "data/input.txt"

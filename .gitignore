@@ -1,5 +1,6 @@
-# Results directory
+# Processing Directories
 results/
+data/
 
 # Diagrams
 dag.svg
