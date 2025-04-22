@@ -1,0 +1,26 @@
+rule all:
+    input:
+        "results/final_analysis.html"
+
+rule generate_data:
+    output:
+        "data/raw_data.csv"
+    shell:
+        "pixi run --no-lockfile-update --environment numpy python scripts/generate_data.py"
+
+rule process_data_pandas:
+    input:
+        "data/raw_data.csv"
+    output:
+        "results/processed_pandas.csv"
+    shell:
+        "pixi run --no-lockfile-update --environment pandas python scripts/process_pandas.py"
+
+rule analyze_data_dask:
+    input:
+        "results/processed_pandas.csv"
+    output:
+        "results/final_analysis.html"
+    shell:
+        "pixi run --no-lockfile-update --environment dask python scripts/analyze_dask.py"
+

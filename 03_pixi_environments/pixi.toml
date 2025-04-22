@@ -1,0 +1,28 @@
+[workspace]
+authors = ["TheSkyentist <raphael.hviding@gmail.com>"]
+channels = ["conda-forge", "bioconda"]
+name = "03_pixi_environments"
+platforms = ["osx-64","osx-arm64","linux-64","win-64"]
+version = "0.1.0"
+
+[tasks]
+example = "snakemake --cores 2"
+dag = {cmd = "dot -c; snakemake --dag | dot -Tsvg -o dag.svg"}
+
+[dependencies]
+snakemake = ">=9.3.0,<10"
+graphviz = ">=12.2.1,<13"
+
+[environments]
+numpy = {features = ['numpy']}
+pandas = {features = ['pandas']}
+dask = {features = ['dask','pandas']}
+
+[feature.numpy.dependencies]
+numpy = ">=2.2.5,<3"
+
+[feature.pandas.dependencies]
+pandas = ">=2.2.3,<3"
+
+[feature.dask.dependencies] 
+dask = ">=2025.3.0,<2026"
