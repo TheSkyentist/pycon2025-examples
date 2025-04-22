@@ -1,0 +1,38 @@
+# Use with: snakemake --profile slurm_profile
+
+rule all:
+    input:
+        "results/final_output.txt"
+
+rule download_data:
+    output:
+        "data/raw_data.txt"
+    resources:
+        time_min=10,
+        mem_mb=1000
+    shell:
+        "curl -o {output} https://example.com/data/sample_data.txt"
+
+rule process_data:
+    input:
+        "data/raw_data.txt"
+    output:
+        "results/processed_data.txt"
+    resources:
+        time_min=30,
+        mem_mb=8000,
+        partition="bigmem"
+    shell:
+        "python scripts/process.py {input} > {output}"
+
+rule analyze_data:
+    input:
+        "results/processed_data.txt"
+    output:
+        "results/final_output.txt"
+    resources:
+        time_min=60,
+        mem_mb=4000,
+        partition="standard"
+    shell:
+        "python scripts/analyze.py {input} > {output}"
