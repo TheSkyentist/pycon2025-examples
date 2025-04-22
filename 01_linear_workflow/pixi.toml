@@ -1,0 +1,14 @@
+[workspace]
+authors = ["TheSkyentist <raphael.hviding@gmail.com>"]
+channels = ["conda-forge", "bioconda"]
+name = "01_linear_workflow"
+platforms = ["osx-64","osx-arm64","linux-64","win-64"]
+version = "0.1.0"
+
+[tasks]
+example = "snakemake --cores 2"
+dag = "dot -c; snakemake --dag | dot -Tsvg -o dag.svg"
+
+[dependencies]
+snakemake = ">=9.3.0,<10"
+graphviz = ">=12.2.1,<13"

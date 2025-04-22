@@ -1,0 +1,28 @@
+# Basic Example where text from a file is reverted, capitalized, and modified
+rule all:
+    input:
+        "results/final_output.txt"
+
+rule step1:
+    input:
+        "data/input.txt"
+    output:
+        "results/step1.txt"
+    shell:
+        "tr 'a-z' 'A-Z' < {input} > {output}"
+
+rule step2:
+    input:
+        "results/step1.txt"
+    output:
+        "results/step2.txt"
+    shell:
+        "rev {input} > {output}"
+
+rule step3:
+    input:
+        "results/step2.txt"
+    output:
+        "results/final_output.txt"
+    shell:
+        "awk '{{print NR, $0}}' {input} > {output}"

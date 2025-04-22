@@ -1,0 +1,12 @@
+# Results directory
+results/
+
+# Diagrams
+dag.svg
+
+# Snakemake
+.snakemake
+
+# pixi environments
+.pixi
+*.egg-info
