@@ -1,0 +1,81 @@
+rule all:
+    input:
+        "results/summary.txt"
+
+# Create initial input data
+rule create_input:
+    output:
+        "data/input.txt"
+    run:
+        with open(output[0], 'w') as f:
+            f.write("\n".join(str(i) for i in range(1000)))
+
+# Split into 10 chunks (n=0..9)
+rule split_input:
+    input:
+        "data/input.txt"
+    output:
+        expand("data/chunks/chunk_{n}.txt", n=range(10))
+    run:
+        with open(input[0]) as f:
+            lines = f.readlines()
+        chunk_size = len(lines) // len(output)
+        for i, out_file in enumerate(output):
+            start = i * chunk_size
+            end = (i + 1) * chunk_size if i < len(output) - 1 else len(lines)
+            with open(out_file, 'w') as f:
+                f.writelines(lines[start:end])
+
+# Split each chunk into 5 subchunks (m=0..4)
+rule split_chunks:
+    input:
+        "data/chunks/chunk_{n}.txt"
+    output:
+        expand("data/subchunks/chunk_{n}_sub{m}.txt", m=range(5), allow_missing=True)
+    run:
+        with open(input[0]) as f:
+            lines = f.readlines()
+        subchunk_size = len(lines) // len(output)
+        for i, out_file in enumerate(output):
+            start = i * subchunk_size
+            end = (i + 1) * subchunk_size if i < len(output) - 1 else len(lines)
+            with open(out_file, 'w') as f:
+                f.writelines(lines[start:end])
+
+# Process each subchunk (square each number)
+rule process_subchunks:
+    input:
+        "data/subchunks/chunk_{n}_sub{m}.txt"
+    output:
+        "results/processed/chunk_{n}_sub{m}.txt"
+    run:
+        with open(input[0]) as fin, open(output[0], 'w') as fout:
+            for line in fin:
+                num = int(line.strip())
+                fout.write(f"{num**2}\n")
+
+# Combine processed subchunks back to chunks (for each n, combine all m)
+rule combine_subchunks:
+    input:
+        lambda wildcards: expand("results/processed/chunk_{n}_sub{m}.txt",
+                               m=range(5),
+                               n=wildcards.n)
+    output:
+        "results/combined/chunk_{n}.txt"
+    shell:
+        "cat {input} > {output}"
+
+# Final summary (sum of all squares)
+rule create_summary:
+    input:
+        expand("results/combined/chunk_{n}.txt", n=range(10))
+    output:
+        "results/summary.txt"
+    run:
+        total = 0
+        for file in input:
+            with open(file) as f:
+                for line in f:
+                    total += int(line.strip())
+        with open(output[0], 'w') as f:
+            f.write(f"Total sum of squares: {total}\n")
