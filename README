@@ -1,0 +1,44 @@
+# Snakemake Examples
+
+This repository contains a collection of Snakemake workflow examples that demonstrate key features and capabilities for building reproducible, scalable pipelines.
+
+Each subdirectory showcases a specific concept or pattern using minimal, educational examples. These examples are designed to help users learn Snakemake and adopt best practices in scientific computing.
+
+---
+
+## 📁 Example Workflows
+
+### `01_linear_workflow/`
+A simple three-step linear workflow that transforms text using shell commands. Demonstrates basic rule chaining and file-based dependencies.
+
+### `02_fan_in_fan_out_workflow/`
+A more complex hierarchical workflow:
+- Splits a dataset into chunks
+- Subsplits each chunk
+- Processes subchunks in parallel
+- Merges results at two levels  
+Illustrates fan-in/fan-out patterns and scalable parallelism.
+
+### `03_pixi_environments/`
+Uses [Pixi](https://prefix.dev/pixi) to define **per-rule isolated environments**.
+- Demonstrates how to integrate Snakemake with Pixi
+- Shows multiple environment reproducibility using `pixi.toml` files
+
+### `04_slurm_cluster/`
+A simple example of running jobs on a SLURM cluster.
+- Includes SLURM jobscript and configuration
+- Demonstrates scalable job submission using wildcards
+
+---
+
+## 🛠 Requirements
+
+- [Pixi](https://prefix.dev/docs/pixi/)
+
+---
+
+## 🚀 Getting Started
+
+- Install Pixi
+- In each directory, typing "pixi run example" will run the example from start to finish.
+- Running "pixi run dag" which create the graph visualization of the workflow.

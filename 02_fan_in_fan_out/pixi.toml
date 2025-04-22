@@ -1,7 +1,7 @@
 [workspace]
 authors = ["TheSkyentist <raphael.hviding@gmail.com>"]
 channels = ["conda-forge", "bioconda"]
-name = "01_linear_workflow"
+name = "02_fan_in_fan_out"
 platforms = ["osx-64","osx-arm64","linux-64","win-64"]
 version = "0.1.0"
 
