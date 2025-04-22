@@ -1,0 +1,13 @@
+restart-times: 3
+default-resources:
+  - time_min=5
+  - mem_mb=1000
+  - partition="standard"
+
+slurm:
+  job-name: "smk-{rule}-{jobid}"
+  output: "slurm_logs/slurm-%j.out"
+  error: "slurm_logs/slurm-%j.err"
+  time: "{resources.time_min}"
+  mem: "{resources.mem_mb}"
+  partition: "{resources.partition}"

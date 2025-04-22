@@ -28,6 +28,7 @@ Uses [Pixi](https://prefix.dev/pixi) to define **per-rule isolated environments*
 A simple example of running jobs on a SLURM cluster.
 - Includes SLURM jobscript and configuration
 - Demonstrates scalable job submission using wildcards
+- This one can't be run simply, it's meant to serve as an example.
 
 ---
 
